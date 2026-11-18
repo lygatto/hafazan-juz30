@@ -203,7 +203,10 @@ function openSurah(n, startAyah = 1) {
   stopListening(false);
   const s = SURAHS.find((x) => x.n === n);
   const words = [], ayahStart = [];
-  s.ayat.forEach((ayah, ai) => { ayahStart.push(words.length); ayah.forEach((t, k) => words.push({ text: t, ayah: ai + 1, k })); });
+  s.ayat.forEach((ayah, ai) => {
+    ayahStart.push(words.length);
+    ayah.forEach((t, k) => words.push({ text: t, key: s.keys[ai][k], ayah: ai + 1, k, last: k === ayah.length - 1 }));
+  });
   const startWord = ayahStart[startAyah - 1];
   session = { s, words, ayahStart, startAyah, startWord, cursor: startWord, res: new Map(), seq: buildSequence(words), token: Symbol(), pending: 0, finishing: false };
 
@@ -225,7 +228,9 @@ function openSurah(n, startAyah = 1) {
   m.onclick = (e) => {
     const w = e.target.closest('.w.bad'); if (!w) return;
     const r = session.res.get(+w.dataset.i);
-    toast(r?.type === 'tertinggal' ? 'Tertinggal — perkataan ini tidak dibaca' : 'Salah — AI mendengar perkataan lain');
+    const heard = r?.heard ? ` — AI dengar: ${r.heard}` : '';
+    toast(r?.type === 'tertinggal' ? 'Tertinggal — perkataan ini tidak dibaca'
+      : r?.type === 'baris' ? 'Salah baris' + heard : 'Salah' + heard, 4000);
   };
   m.classList.toggle('show-text', !!store.settings.showText);
   $('showText').checked = !!store.settings.showText;
@@ -359,7 +364,7 @@ function showSummary() {
   const sess = session; sess.finishing = false;
   if (!sess.res.size) { toast('Belum ada bacaan yang disemak.'); return; }
   let ok = 0, salah = 0, skip = 0;
-  for (const v of sess.res.values()) v.type === 'ok' ? ok++ : v.type === 'salah' ? salah++ : skip++;
+  for (const v of sess.res.values()) v.type === 'ok' ? ok++ : v.type === 'tertinggal' ? skip++ : salah++;
   const total = ok + salah + skip, pct = Math.round((ok / total) * 100);
   const full = sess.startWord === 0 && sess.cursor >= sess.words.length;
   const n = sess.s.n;

@@ -1,6 +1,6 @@
 // Service worker: simpan fail aplikasi supaya boleh dibuka luar talian.
 // Model AI disimpan sendiri oleh transformers.js (Cache Storage "transformers-cache").
-const VERSION = 'v1';
+const VERSION = 'v2';
 const SHELL = `shell-${VERSION}`;
 const RUNTIME = 'runtime-v1';
 const ASSETS = [

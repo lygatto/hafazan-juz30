@@ -6,8 +6,9 @@ AI mendengar bacaan dan menanda perkataan yang **salah** atau **tertinggal** den
 ## Ciri-ciri
 - **Semakan suara dengan AI**: model Whisper yang dilatih khas pada bacaan Al-Quran (Tarteel AI) berjalan **terus dalam pelayar**. Tiada pelayan, dan rakaman tidak dihantar ke mana-mana.
 - **Mod hafazan**: teks disembunyikan dan didedahkan selepas dibaca. Suis **Tunjuk teks** tersedia untuk peringkat awal.
-- **Tanda merah**: perkataan *salah* (perkataan lain dibaca) atau *tertinggal* (dilangkau). Sentuh perkataan merah untuk melihat jenis kesilapan.
-- **Toleransi**: baris (harakat) dan beza ejaan Uthmani/imla'i diabaikan, mengulang bacaan tidak dikira salah, dan isti'azah serta basmalah diabaikan.
+- **Semakan ketat**: setiap perkataan mesti tepat **huruf dan barisnya** (fathah, kasrah, dhammah, tanwin, syaddah, huruf mad). Baris huruf terakhir hanya dikecualikan di tempat berhenti (waqaf).
+- **Tanda merah**: *salah* (huruf/perkataan lain), *salah baris*, atau *tertinggal* (dilangkau). Sentuh perkataan merah untuk melihat jenis kesilapan dan apa yang AI dengar.
+- **Toleransi**: beza ejaan Uthmani/imla'i diabaikan (teks dibandingkan dalam ejaan imla'i), mengulang bacaan tidak dikira salah, dan isti'azah serta basmalah diabaikan.
 - **Ringkasan** di akhir surah: peratus ketepatan dan senarai ayat yang perlu diulang.
 - **Kemajuan** disimpan dalam peranti: ⚪ belum cuba · 🟡 sedang dihafal · 🟢 hafaz (≥90% satu surah penuh).
 - **Perlu Diulang**: semua ayat yang pernah ditanda merah, dengan butang dengar dan latih semula.
@@ -15,7 +16,7 @@ AI mendengar bacaan dan menanda perkataan yang **salah** atau **tertinggal** den
 - Tema Islamik moden, mod gelap, dan boleh dipasang ke skrin utama serta digunakan luar talian (kecuali audio qari).
 
 ## Batasan (Versi 1)
-- **Tajwid tidak disemak** (mad, ghunnah, makhraj). Semakan hanya pada peringkat perkataan.
+- **Tajwid tidak disemak** (panjang mad, ghunnah, makhraj, qalqalah). Huruf dan baris disemak, tetapi tidak sifat bunyi.
 - Muat turun pertama lebih kurang **105MB** (enjin AI). Selepas itu enjin disimpan dalam peranti.
 - Semakan berlaku selepas murid **berhenti sekejap** (kira-kira 1 saat) di hujung ayat, dan bukan secara serta-merta.
 - Ketepatan bergantung pada kualiti mikrofon dan bunyi bising sekeliling.
@@ -28,7 +29,7 @@ js/app.js             Logik aplikasi, simpanan kemajuan, ringkasan
 js/align.js           Enjin semakan: penjajaran transkrip AI dengan teks Al-Quran
 js/recorder.js        Mikrofon + pengesan jeda (VAD), potongan audio 16kHz
 js/asr-worker.js      Web Worker yang menjalankan model AI (transformers.js)
-data/juz30.json       Teks Rasm Uthmani Juz 30 (Tanzil), tanpa basmalah
+data/juz30.json       Teks Rasm Uthmani (paparan) + imla'i berbaris (semakan), Juz 30, Tanzil
 sw.js                 Service worker (luar talian)
 manifest.webmanifest  Tetapan PWA
 icons/                Ikon aplikasi
